@@ -36,4 +36,5 @@ def get_historical_prices():
     return result.df()
 
 if __name__ == "__main__":
-        print(get_historical_prices())
+    get_historical_prices().to_csv("data/historical_prices.csv", index=False)
+    get_comparison_data().to_csv("data/comparison_data.csv", index=False)

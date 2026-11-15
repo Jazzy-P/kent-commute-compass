@@ -1,5 +1,5 @@
 import streamlit as st
-from main import get_comparison_data, get_historical_prices
+import pandas as pd
 
 def format_journey_time(journey_minutes):
     minutes = int(journey_minutes)
@@ -29,8 +29,8 @@ max_commute = st.slider(
     format = "%d min"
 )
 
-comparison_data = get_comparison_data()
-historical_prices = get_historical_prices()
+comparison_data = pd.read_csv("data/comparison_data.csv")
+historical_prices = pd.read_csv("data/historical_prices.csv")
 
 chart_data = historical_prices.pivot(
     index = "sale_year",
@@ -79,4 +79,4 @@ st.line_chart(
     chart_data,
     y_label = "Median Sale Price (£)")
 
-st.write ("Historical prices show all five lovations regardless of the filters above.")
+st.write ("Historical prices show all five locations regardless of the filters above.")

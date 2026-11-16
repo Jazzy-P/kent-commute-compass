@@ -4,7 +4,9 @@
 
 Kent Commute Compass is an interactive Python dashboard for comparing the cost of buying a semi-detached home with the time spent commuting to London Bridge. It combines HM Land Registry transaction data with a manually compiled sample of direct morning train services.
 
-**Status:** Pre-release development · **Target version:** `v0.1.0`
+**Status:** Live public MVP
+**Current Version:** `v0.1.0`
+**Live App:** https://kent-commute-compass.streamlit.app/
 
 ## What it does
 
@@ -23,6 +25,7 @@ Choosing where to live often involves balancing property affordability with comm
 | Tool | Role |
 | --- | --- |
 | Python | Application logic |
+| SQL | Filtering, joining and aggregating property and train data |
 | DuckDB | Querying and aggregating CSV data |
 | Pandas | Reshaping data for display and charts |
 | Streamlit | Interactive dashboard |
@@ -132,7 +135,7 @@ The three downloaded `pp-YYYY.csv` files also belong in `data/` locally, but are
 
 ## Project status and roadmap
 
-The core dashboard is working. The project is in **pre-release testing and documentation** ahead of its first `v0.1.0` release.
+The core dashboard is working. The project is live and currently on the `v0.1.0` release.
 
 Potential next steps:
 

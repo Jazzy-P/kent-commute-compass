@@ -86,6 +86,56 @@ python -m streamlit run app.py
 
 Open the local URL shown in the terminal (typically `http://localhost:8501`).
 
+## Updating the data
+
+Kent Commute Compass uses preprocessed CSV files to keep the deployed Streamlit application lightweight and responsive.
+
+The raw HM Land Registry Price Paid Data is processed locally using Python, DuckDB and SQL. The resulting datasets are saved as smaller CSV files that the Streamlit application reads directly.
+
+### Source files
+
+The data processing workflow uses:
+
+- `data/pp-2023.csv`, `data/pp-2024.csv`, `data/pp-2025.csv` — raw HM Land Registry property sales data.
+- `data/train_times.csv` — manually collected train timetable data.
+
+The large raw Land Registry files are stored locally and are not committed to GitHub.
+
+### Refresh procedure
+
+1. Update the relevant raw property data or `train_times.csv`, ensuring the existing file structure and expected columns are preserved.
+2. Open a terminal in the project directory and activate the Python virtual environment.
+3. Run the processing script:
+
+   `python main.py`
+
+4. The script regenerates and overwrites:
+   - `data/comparison_data.csv`
+   - `data/historical_prices.csv`
+5. Check which files have changed:
+
+   `git status`
+
+6. Launch the application locally:
+
+   `streamlit run app.py`
+
+7. Verify that the comparison table, property price and journey time sliders, and historical price chart work correctly.
+8. Review the changed files before committing and pushing the updated processed datasets to GitHub.
+
+### Deployment
+
+The deployed Streamlit application reads `comparison_data.csv` and `historical_prices.csv` directly. It does not run the raw data processing pipeline when users open the dashboard.
+
+Once updated processed CSV files are committed and pushed to the connected GitHub repository, Streamlit Community Cloud can redeploy the application with the refreshed data.
+
+### Important notes
+
+- Running `python main.py` overwrites the existing processed CSV files rather than creating additional copies.
+- The raw Land Registry datasets must be available locally to regenerate the processed files.
+- Refreshing the processed datasets does not automatically change the source data.
+- Changes to the train timetable sample or geographic methodology should also be reflected in the project's documentation.
+
 ## Data and methodology
 
 ### Property sales

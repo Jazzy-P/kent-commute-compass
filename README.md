@@ -143,19 +143,23 @@ Once updated processed CSV files are committed and pushed to the connected GitHu
 **Source:** [HM Land Registry Price Paid Data](https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads), 2023–2025.
 
 - Retains transactions marked as **semi-detached**.
-- Matches the five locations using place-name fields in the Price Paid Data records, rather than precise geographical boundaries.
+- Identifies property locations using the HM Land Registry locality field (`column10`), falling back to the town/city field (`column11`) when locality is missing. The selected place names are matched directly; no geographic boundaries, distance calculations or station catchment areas are used.
 - Calculates the **median recorded sale price** and **number of matching transactions** by location and year.
 - Uses **2025** results in the comparison table and **2023–2025** results in the historical chart.
 
 ### Train journeys
 
-**Source:** Google Maps, manually transcribed into `data/train_times.csv`. **Sample date:** Thursday, 12 November 2026.
+**Source:** Google Maps, manually transcribed into `data/train_times.csv`.
 
-- Includes sampled direct services **scheduled to arrive at London Bridge between 08:00 and 09:00 on Thursday, 12 November 2026**.
+**Timetable sample dates:**
+- Original five locations (v0.1.0): Thursday, 12 November 2026.
+- Additional stations collected for v0.2.0: Thursday, 19 November 2026.
+
+- Includes sampled direct services scheduled to arrive at London Bridge between 08:00 and 09:00 on the relevant sample date.
 - Calculates median scheduled journey duration for each station.
 - Counts the sampled services in that arrival window.
 
-Journey details were collected manually from Google Maps for the stated date. This is a **single-day sample of scheduled journeys**, not a Google Maps dataset, live journey information, or a measure of service reliability.
+Journey details were collected manually from Google Maps for the dates stated above. These are single-day samples of scheduled journeys, not live journey information or measures of service reliability. The sample dates differ between the original locations and the additional stations collected for v0.2.0.
 
 ## How to interpret the results
 
@@ -169,16 +173,19 @@ Use the dashboard for initial exploration, and verify current property listings 
 
 ## Repository structure
 
-```text
+```
 kent-commute-compass/
-├── app.py                  # Streamlit dashboard
-├── main.py                 # DuckDB queries and data functions
-├── train_analysis.py       # Train-data SQL experimentation
-├── requirements.txt        # Python dependencies
-├── .gitignore              # Files excluded from Git
-├── README.md               # Project documentation
+├── app.py
+├── main.py
+├── train_analysis.py
+├── requirements.txt
+├── .gitignore
+├── README.md
+├── TESTING.md
 └── data/
-    └── train_times.csv     # Manually compiled timetable sample
+    ├── train_times.csv
+    ├── comparison_data.csv
+    └── historical_prices.csv
 ```
 
 The three downloaded `pp-YYYY.csv` files also belong in `data/` locally, but are excluded from Git.
@@ -201,4 +208,4 @@ These are possible enhancements, not promised release dates.
 
 Property transaction information is sourced from **HM Land Registry Price Paid Data** and contains public sector information licensed under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
 
-Train journey information was manually compiled from Google Maps for Thursday, 12 November 2026. It is provided as a limited comparison sample, not as live travel advice; check current schedules with an official journey planner before travelling.
+Train journey information was manually compiled from Google Maps using timetable samples from Thursday, 12 November 2026 (original locations) and Thursday, 19 November 2026 (additional stations collected for v0.2.0). It is provided as a limited comparison sample, not as live travel advice; check current schedules with an official journey planner before travelling.

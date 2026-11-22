@@ -14,8 +14,9 @@ def get_comparison_data():
         FROM property_locations
         JOIN train_stats
         ON property_locations.location = train_stats.station
-        WHERE location IN ('SEVENOAKS', 'TONBRIDGE', 'TUNBRIDGE WELLS', 'PADDOCK WOOD', 'STAPLEHURST') AND sale_year = 2025
-        GROUP BY location, sale_year, train_stats.median_train_time, train_stats.morning_trains
+        WHERE location IN ('SEVENOAKS', 'TONBRIDGE', 'TUNBRIDGE WELLS', 'PADDOCK WOOD', 'STAPLEHURST', 'HILDENBOROUGH', 'MARDEN', 'HEADCORN', 'PLUCKLEY', 'ASHFORD', 'SANDLING') AND sale_year = 2025
+        GROUP BY location, sale_year
+        , train_stats.median_train_time, train_stats.morning_trains
         ORDER BY sale_year DESC, median_price ASC
         LIMIT 20;
     """)
@@ -29,7 +30,7 @@ def get_historical_prices():
         ),
         SELECT location, MEDIAN(sold_price) AS median_price, COUNT(*) AS total_sales, sale_year
         FROM property_locations
-        WHERE location IN ('SEVENOAKS', 'TONBRIDGE', 'TUNBRIDGE WELLS', 'PADDOCK WOOD', 'STAPLEHURST')
+        WHERE location IN ('SEVENOAKS', 'TONBRIDGE', 'TUNBRIDGE WELLS', 'PADDOCK WOOD', 'STAPLEHURST', 'HILDENBOROUGH', 'MARDEN', 'HEADCORN', 'PLUCKLEY', 'ASHFORD', 'SANDLING')
         GROUP BY location, sale_year
         ORDER BY sale_year DESC, median_price ASC
     """)
